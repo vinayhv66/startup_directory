@@ -1,8 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
-import { auth } from "../auth";
-import { signInWithGithub } from "../actions/signInGithub";
-import { signOutAction } from "../actions/signOutAction";
+import { auth } from "../app/auth";
+import { signInWithGithub } from "../app/actions/signInGithub";
+import { signOutAction } from "../app/actions/signOutAction";
 
 const Navbar = async () => {
   const session = await auth();
