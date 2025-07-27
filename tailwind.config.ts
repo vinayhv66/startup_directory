@@ -29,6 +29,9 @@ const config: Config = {
                     "100": "#F7F7F7",
                     DEFAULT: "#FFFFFF",
                 },
+                rojo: '#E4281F',
+                dutchwhite: '#FCEEC9',
+                xanthous: '#FFBE54',
             },
             fontFamily: {
                 "work-sans": ["var(--font-work-sans)"],

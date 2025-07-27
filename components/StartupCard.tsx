@@ -3,30 +3,27 @@ import { EyeIcon } from "lucide-react"
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "./button";
+import { Author, Startup } from "@/src/sanity/types";
 
-export type StartupTypeCard = {
-    _createdAt: Date;
-    views: number;
-    author: {
-        _id: number;
-        name: string;
-    };
-    title: string;
-    _id: number;
-    image: string;
-    description: string;
-    category: string;
-}
+export type StartupTypeCard = Omit<Startup, "author"> & { author?: Author};
 
 const StartupCard = ({post}:{post:StartupTypeCard})=>{
-    const{_createdAt,views,author,title,_id,image,description,category}= post;
-    const authorId = author?._id;
-    const authorName = author?.name;
+    const{
+        _createdAt,
+        views,
+        author,
+        title,
+        _id,
+        image,
+        description,
+        category
+    }= post;
+
     return(
         <li className="startup-card graup">
             <div className="flex-between">
                 <p className="startup_card_date">
-                    {formatDate(_createdAt.toISOString())}
+                    {formatDate(_createdAt)}
                 </p>
                 <div className=" flex gap-1.5">
                     <EyeIcon className='size-6 text-primary'/>
@@ -35,9 +32,9 @@ const StartupCard = ({post}:{post:StartupTypeCard})=>{
                 </div>
                 <div className="flex-between mt-5 gap-5">
                     <div className="flex-1">
-                        <Link href={`/user/${authorId}`}>
+                        <Link href={`/user/${author?._id}`}>
                         <p className="text-16-medium line-clamp-1">
-                           {authorName}
+                           {author?.name}
                             </p>
                             </Link>
                             <Link href={`/startup/${_id}`}>
@@ -49,7 +46,7 @@ const StartupCard = ({post}:{post:StartupTypeCard})=>{
                            </Link>
                            
                      </div>
-                            <Link href={`/user/${authorId}`}>
+                            <Link href={`/user/${author?._id}`}>
                             <Image 
                                 src="https://placehold.co/48x48" 
                                 alt="placeholder" 
@@ -64,7 +61,7 @@ const StartupCard = ({post}:{post:StartupTypeCard})=>{
                                 {description}
                             </p>
                             <Image 
-                                src={image} 
+                                src={image || "https://placehold.co/1024x512"} 
                                 alt="startup image" 
                                 width={1024} 
                                 height={512} 
@@ -72,9 +69,11 @@ const StartupCard = ({post}:{post:StartupTypeCard})=>{
                             />
                             </Link>
             <div className="flex-between gap-3 mt-5">
-                <Link href={`/?query=${category.toLowerCase()}`}>
-                <p className="text-16-medium">{category}</p>
-                </Link>
+                {
+                    <Link href={`/?query=${category?.toLowerCase()}`}>
+                        <p className="text-16-medium">{category}</p>
+                    </Link>
+                }
                 <Button className="startup-card_btn" asChild>
                     <Link href={`/startup/${_id}`}>
                     details</Link>

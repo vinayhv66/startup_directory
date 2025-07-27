@@ -21,6 +21,14 @@ const nextConfig: NextConfig = {
                 hostname: 'cloudfront-us-east-1.images.arcpublishing.com',
             }
         ]
+    },
+
+    
+    devIndicators:{
+        appIsrStatus:true,
+        buildActivity:true,
+        buildActivityPosition:"bottom-right"
+
     }
 };
 
