@@ -29,6 +29,9 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
 
   const parsedContent = md.render(post?.pitch || "");
 
+  // Debug: Log the playlist result to understand what's happening
+  console.log("Playlist result:", playlistResult);
+
   return (
     // ... (rest of your component's JSX, which I've confirmed is correct)
     <>
@@ -65,13 +68,17 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
               {post.author?.image ? (
                 <Image
                   src={post.author.image}
-                  alt="avatar"
+                  alt={post.author.name || "avatar"}
                   width={64}
                   height={64}
                   className="rounded-full drop-shadow-lg"
                 />
               ) : (
-                <div className="w-16 h-16 bg-gray-300 rounded-full" />
+                <div className="w-16 h-16 bg-gray-300 rounded-full flex items-center justify-center">
+                  <span className="text-gray-600 font-semibold text-lg">
+                    {post.author?.name?.charAt(0) || "?"}
+                  </span>
+                </div>
               )}
 
               <div>
@@ -99,15 +106,20 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
         <hr className="divider" />
 
         
-        {playlistResult?.length > 0 && (
+        {playlistResult?.select && playlistResult.select.length > 0 ? (
           <div className="max-w-4xl mx-auto">
             <p className="text-30-semibold">Editor Picks</p>
 
             <ul className="mt-7 card_grid-sm">
-              {playlistResult.map((post: StartupTypeCard, i: number) => (
+              {playlistResult.select.map((post: StartupTypeCard, i: number) => (
                 <StartupCard key={i} post={post} />
               ))}
             </ul>
+          </div>
+        ) : (
+          <div className="max-w-4xl mx-auto">
+            <p className="text-30-semibold">Editor Picks</p>
+            <p className="text-gray-500 mt-4">No editor picks available yet.</p>
           </div>
         )}
 

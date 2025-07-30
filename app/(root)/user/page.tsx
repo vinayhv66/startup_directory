@@ -22,14 +22,22 @@ const page = async ({params}:{params:Promise<{id:string}>})=>{
         {user.name}
         </h3>
       </div>
-      <Image
-        src={user.image}
-        alt={user.name}
-        width={220}
-        height={220}
-        className='profile_image'
-      />
-        <p className='text-30-extrabold mt-7' text-center> @{user?.username}</p>
+      {user.image ? (
+        <Image
+          src={user.image}
+          alt={user.name || "avatar"}
+          width={220}
+          height={220}
+          className='profile_image'
+        />
+      ) : (
+        <div className="profile_image bg-gray-300 rounded-full flex items-center justify-center">
+          <span className="text-gray-600 font-semibold text-4xl">
+            {user.name?.charAt(0) || '?'}
+          </span>
+        </div>
+      )}
+        <p className='text-30-extrabold mt-7 text-center'> @{user?.username}</p>
         <p className='mt-1 text-center text-14-normal'>{user?.bio} </p>
       </div>
       <div className='flex-1 flex-col gap-5 lg:-mt-5'>
